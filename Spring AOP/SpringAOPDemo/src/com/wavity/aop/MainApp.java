@@ -1,0 +1,28 @@
+package com.wavity.aop;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.wavity.aop.dao.AccountDAO;
+import com.wavity.aop.dao.MembershipDAo;
+
+public class MainApp 
+{
+public static void main(String[] args) {
+	AnnotationConfigApplicationContext context=
+								new AnnotationConfigApplicationContext(ConfigDemo.class);	
+	AccountDAO theAccountDAo= context.getBean("accountDAO", AccountDAO.class);
+	Account myAccount= new Account();
+	theAccountDAo.addAccount(myAccount, true);
+	theAccountDAo.doWork();
+	
+	System.out.println("Call AccountDAO again");
+
+	MembershipDAo theMembershipDAO= context.getBean("membershipDAo", MembershipDAo.class);
+	theMembershipDAO.addMember();
+	theMembershipDAO.Hi();
+
+	theAccountDAo.addAccount(myAccount, true);
+	theAccountDAo.doWork();
+
+	context.close();                            	
+	}
+}
